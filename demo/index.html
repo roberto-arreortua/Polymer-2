@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>example-element demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../example-element.html">
+    <link rel="import" href="../card-element.html">
+    <link rel="import" href="../navegador-secciones.html">
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <navegador-secciones></navegador-secciones>
+      <h3>Basic example-element demo</h3>
+      <demo-snippet>
+        <template>
+          <!--Al inyectar desde el DOM se cargara el constructor y el callback-->
+          <example-element></example-element>
+        </template>
+      </demo-snippet> 
+      <button id="anadirAlDOM">Añadir un elemento al DOM</button>
+      <button id="eliminarDelDOM">Eliminar un elemento del DOM</button>
+      <button id="cambiarAtributo">Cambiar un atributo de elemento</button>
+    </div>
+    <script>
+      var el1 = document.createElement('example-element');
+      el1.setAttribute('id', 'el1');
+
+      //var el2 = new ExampleElement();
+      // Esto esta en la memoria de javascript por lo tanto no solo se cargara el constructor, mas no el callback
+      document.getElementById('anadirAlDOM').addEventListener('click', function() {
+        document.body.appendChild(el1);
+      });
+    
+      document.getElementById('eliminarDelDOM').addEventListener('click', function() {
+        document.body.removeChild(document.getElementById('el1'));
+      });
+    
+      document.getElementById('cambiarAtributo').addEventListener('click', function() {
+        el1.setAttribute('prop1', "Change");
+      });
+    </script>
+  </body>
+</html>

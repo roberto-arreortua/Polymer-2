@@ -1,0 +1,62 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="instrumento-show">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      h2 {
+        background-color: orange;
+        color: rgb(46, 44, 44);
+        text-align: center;
+      }
+    </style>
+    <h1>[[title]]</h1>
+    <h2>Instrumento : [[name]]</h2>
+    <button on-click="changeTitle">Regresar titulo</button>
+  </template>
+
+  <script>
+    /**
+     * `example-element`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class InstrumentoShow extends Polymer.Element {
+      constructor(){
+        super();
+        console.log("Constructor");
+      }
+
+      static get is() { return 'instrumento-show'; }
+      static get properties() {
+        return {
+          title:{
+            type:String,
+            value:"Titulo host",
+            notify:true
+          },
+          name: {
+            type: String,
+            value: 'instrumento-show'
+          }
+        };
+      }
+      changeTitle(){
+        this.title = "Titulo Child"
+      }
+      ready(){
+        super.ready();
+        setTimeout(()=>{
+          this.fire("change")//Solo en polymer 1
+        },5000);
+      }
+    }
+
+    window.customElements.define(InstrumentoShow.is, InstrumentoShow);
+  </script>
+</dom-module>

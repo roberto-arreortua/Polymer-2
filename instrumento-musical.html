@@ -1,0 +1,158 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="./instrumento-show.html">
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<dom-module id="instrumento-musical">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 10px 15px;
+        background-color: rgb(211, 247, 247);
+        color: rgb(36, 54, 77);
+        border-radius: 6px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        margin-bottom: 10px;
+      }
+      h1 {
+        font-size: 1.4em;
+        margin: 0;
+        color: #f52757;
+      }
+      p {
+        font-size: .9em;
+        color: #2055a8;
+      }
+      p span {
+        font-weight: bold;
+      }
+    </style>
+    <h1 on-click="toggle">[[nombre]]</h1>
+    <p on-click="resaltarDescripcion">[[descripcion]]</p>
+    <p><span>Clasificación:</span> [[clasificacion]]</p>
+    [[title]]<button on-click="changeTitle">Regresar titulo</button>
+    <template is="dom-repeat" items="{{instrumentos::input}}">
+      <instrumento-show title="{{title}}" name="{{item.name}}"></instrumento-show>
+      <!--
+      <instrumento-musical
+        nombre="[[item.nombre]]"
+        descripcion="[[item.descripcion]]"
+        clasificacion="[[item.clasificacion]]"
+      ></instrumento-musical>
+      -->
+    </template>
+    <button id="listenbutton">Listener</button>
+    <button on-click="obtener">Recuperar datos</button>
+    <button on-click="ListenerComplexFunction">Listener complejo</button>
+  </template>
+
+  <script>
+    class InstrumentoMusical extends Polymer.Element {
+      static get is() {
+        return 'instrumento-musical';
+      }
+      static get observers() {
+        return [
+          
+          'observerComplex(value1, value2)',
+          
+        ]
+      }
+      
+      observerComplex(value1, value2){
+        console.log(value1);
+        console.log(value2); 
+      }
+      
+      static get properties() {
+        return {
+          title:{
+            type:String,
+            value:"Titulo host"
+          },
+          nombre: String,
+          clasificacion: {
+            type: String,
+            value: 'Sin clasificar'
+          },
+          value1: {
+            type: Number,
+            value: 0
+          },
+          value2: {
+            type: Number,
+            value: 0
+          },
+          descripcion: String,
+          desplegado: {
+            type: Boolean,
+            value: false
+          },
+          instrumentos:{
+            type:Array,
+            value: [
+              {
+                name:"Guitarra"
+              },
+              {
+                name:"Trompeta"
+              }
+            ]
+          },
+          valores: {
+            type: Array,
+            value: function() { return []; }
+          }
+        };
+      }
+      ready(){
+        super.ready();
+        //Este es por id del componenent
+        this.$.listenbutton.addEventListener("click",()=>{
+          this.ListenerFunction();
+        })
+        //polymer 1
+        //this.$$("instrumento-show").addEventListener("change",()=>{
+        //  alert("Listener")
+        //})
+        this.addEventListener('click', (e) => { //Este es un listener generico cada que se haga click en donde sea se ejecutara
+          console.log(e);
+          console.log('yeahhh este evento se asocia al componente completo');
+        })
+      }
+      ListenerFunction(){
+        console.log("Listener");
+      }
+      resaltarDescripcion(e) {
+        console.log(e);
+        this.descripcion = this.descripcion.toUpperCase();
+      }
+
+      toggle() {
+        this.desplegado = !this.desplegado;
+      }
+      obtener(){
+        this.instrumentos.push({
+          name:"Otro instrumento"
+        });
+        console.log(this.instrumentos);
+      }
+      ListenerComplexFunction(){
+        this.value1 ++;
+      }
+      getRequest(){
+        console.log(this.instrumentos[0]);
+        $.getJSON( 'https://www.etnassoft.com/api/v1/get/?id=589&callback=?', function ( results ) {
+          console.log( 'Search Result(s): ', results );
+        } );
+        
+      }
+      changeTitle(){
+        this.title = "Titulo Host"
+      }
+    }
+
+    window.customElements.define(InstrumentoMusical.is, InstrumentoMusical);
+  </script>
+</dom-module>

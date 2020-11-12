@@ -1,0 +1,51 @@
+<link rel="import"  href="https://polygit.org/components/polymer/polymer-element.html">
+
+<dom-module id="navegador-secciones">
+
+  <template>
+    <style>
+    nav {
+      background-color: #eef;
+      padding: 10px;
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+    li {
+      display: inline-block;
+      margin-left: 15px;
+    }
+    </style>
+    <nav>
+      <ul>
+          <li>
+            <a href="./index.html">
+              Inicio
+            </a>
+          </li>
+          <li>
+            <a href="./card.html">
+              Card
+            </a>
+          </li>
+          <li>
+            <a href="./instrumentos.html">
+              Instrumentos
+            </a>
+          </li>
+          
+        </ul>
+    </nav> 
+  </template>
+  
+  <script>
+    class NavegadorSecciones extends Polymer.Element {
+      static get is() { return 'navegador-secciones'; }
+    }
+
+    customElements.define(NavegadorSecciones.is, NavegadorSecciones);
+  </script>
+
+</dom-module>

@@ -1,0 +1,82 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="example-element">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      h2 {
+        background-color: orange;
+        color: rgb(46, 44, 44);
+        text-align: center;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+    <h3>[[numberMulti]]</h3>
+    <input type="number" value="{{number::input}}">
+  </template>
+
+  <script>
+    /**
+     * `example-element`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class ExampleElement extends Polymer.Element {
+      constructor(){
+        super();
+        console.log("Constructor");
+      }
+
+      static get is() { return 'example-element'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: "example-element"
+          },
+          number:{
+            type:Number,
+            observer:"multiplication"
+          },
+          numberMulti:{
+            type:Number,
+            value:0
+          }
+        };
+      }
+      multiplication(){
+        this.numberMulti = this.number **2;
+        console.log(this.number);
+      }
+      
+      ready(){
+        super.ready();
+        //Solo se ejecuta una vez, al ser inyectado si se quita y se pone nuevamente no se ejecutara otra vez
+        console.log("Ready");
+      }
+    
+      connectedCallback(){
+        super.connectedCallback();
+        //Se ejecuta cada vez que se inyecta o pone en la pagina
+        console.log("Cuando el elemento se inyecta en el DOM");
+      }
+      
+      disconnectedCallback(){
+        super.disconnectedCallback();
+        console.log("Cuando el elemento se borra del DOM");
+      }
+      
+      attributeChangedCallback(){
+        super.attributeChangedCallback();
+        console.log("Cada vez que un atributo cambi");
+      }
+    }
+
+    window.customElements.define(ExampleElement.is, ExampleElement);
+  </script>
+</dom-module>
